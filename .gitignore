@@ -6,3 +6,5 @@ output.txt
 *.xlsx
 *.xlsx#
 *.csv
+*.sql
+*.txt

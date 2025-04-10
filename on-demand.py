@@ -38,6 +38,13 @@ regras = [
         'L': ['chupeta', 'prendedor de chupeta', 'utensílios infantis'],
         'N': 'acessórios infantis',
         'R-contains': 'chup' 
+    },
+    # Tipo de Aviso: Fórmulas infantis destinadas a crianças em amamentação até os 11 meses e 29 dias de idade
+    {
+        'nome': 'Aviso - Fórmulas infantis destinadas a crianças em amamentação até os 11 meses e 29 dias de idade',
+        'H': 'infantil',
+        'J': 'leites infantis',
+        'L': ['leite de crescimento', 'leite de transição', 'suplementos infantis']
     }
 ]
 
@@ -86,7 +93,7 @@ def extract_csv_data(caminho_csv):
     total = len(linhas)
     count = 0
 
-    with ProcessPoolExecutor() as executor, open("saida.txt", "w", encoding="utf-8") as f_out:
+    with ProcessPoolExecutor() as executor, open("output.txt", "w", encoding="utf-8") as f_out:
         futures = {executor.submit(process_csv_line, row): row for row in linhas}
 
         for future in as_completed(futures):
