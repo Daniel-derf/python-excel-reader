@@ -1,0 +1,8 @@
+venv
+arquivo.csv
+arquivo.xlsx
+saida.txt
+output.txt
+*.xlsx
+*.xlsx#
+*.csv
