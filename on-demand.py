@@ -48,23 +48,28 @@ def is_blocked(row):
         match = True
         for col, valor_regra in regra.items():
             if col == 'nome':
-                continue  # Ignorar a chave 'nome' durante a comparação
-            valor_atual = valores.get(col, '')
-            if isinstance(valor_regra, list):
-                if valor_atual not in valor_regra:
+                continue 
+            if col == 'R-contains':
+                valor_atual = valores.get('R', '')
+                if valor_regra not in valor_atual:
                     match = False
                     break
             else:
-                if valor_atual != valor_regra:
-                    match = False
-                    break
+                valor_atual = valores.get(col, '')
+                if isinstance(valor_regra, list):
+                    if valor_atual not in valor_regra:
+                        match = False
+                        break
+                else:
+                    if valor_atual != valor_regra:
+                        match = False
+                        break
         if match:
-            return True, regra['nome']  # Retorna o nome da regra que causou o bloqueio
+            return True, regra['nome'] 
 
     return False, None
 
-def processar_linha_csv(row):
-    # Verifica se a linha deve ser bloqueada
+def process_csv_line(row):
     is_blocked_result, regra_nome = is_blocked(row)
     
     if is_blocked_result:
@@ -82,7 +87,7 @@ def extract_csv_data(caminho_csv):
     count = 0
 
     with ProcessPoolExecutor() as executor, open("saida.txt", "w", encoding="utf-8") as f_out:
-        futures = {executor.submit(processar_linha_csv, row): row for row in linhas}
+        futures = {executor.submit(process_csv_line, row): row for row in linhas}
 
         for future in as_completed(futures):
             resultado = future.result()
